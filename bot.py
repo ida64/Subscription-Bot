@@ -78,13 +78,18 @@ class InfoView(discord.ui.View):
     async def hardware_id_callback(self, button, interaction):
         await interaction.response.send_modal(HardwareIDModal(title="Reset Hardware ID"))
 
-@bot.slash_command()
+bot.slash_command_auto_sync = True
+
+@bot.slash_command(description="General utils for your subscription", guild_ids=[int(os.getenv("DISCORD_GUILD_ID"))])
 async def info(ctx):
     await ctx.respond(view=InfoView(), ephemeral=True)
 
 @bot.event
 async def on_ready():
     print("Bot is ready!")
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="/help for help"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="/info for info"))
+    
+    # sync global
+    await bot.sync_commands()
 
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
