@@ -36,11 +36,14 @@ class HardwareIDModal(discord.ui.Modal):
         hardware_id = self.children[0].value
         key = await get_license(hardware_id)
         if key:
-            if key["hardware_reset"]:
-                await interaction.response.send_message("Your Hardware ID has already been reset!", ephemeral=True)
+            if len(hardware_id) <= 25:
+                if key["hardware_reset"]:
+                    await interaction.response.send_message("Your Hardware ID has already been reset!", ephemeral=True)
+                else:
+                    await reset_hardware_id(hardware_id)
+                    await interaction.response.send_message("Your Hardware ID has been reset!", ephemeral=True)
             else:
-                await reset_hardware_id(hardware_id)
-                await interaction.response.send_message("Your Hardware ID has been reset!", ephemeral=True)
+                await interaction.response.send_message("Invalid license key", ephemeral=True)
         else:
             await interaction.response.send_message("Invalid license key", ephemeral=True)
 
@@ -53,15 +56,18 @@ class LicenseInfoModal(discord.ui.Modal):
         license_key = self.children[0].value
         key = await get_license(license_key)
         if key:
-            embed = discord.Embed(title=license_key, color=0x2F3136)
-            embed.add_field(name="Product", value=key["associated_product"], inline=False)
-            if key["redeemed"]:
-                activated_at = datetime.datetime.fromtimestamp(key["activated_at"]).strftime("%m/%d/%Y, %H:%M:%S")
-                embed.add_field(name="Activated At", value=activated_at, inline=False)
+            if len(license_key) <= 25:
+                embed = discord.Embed(title=license_key, color=0x2F3136)
+                embed.add_field(name="Product", value=key["associated_product"], inline=False)
+                if key["redeemed"]:
+                    activated_at = datetime.datetime.fromtimestamp(key["activated_at"]).strftime("%m/%d/%Y, %H:%M:%S")
+                    embed.add_field(name="Activated At", value=activated_at, inline=False)
 
-                expiration = datetime.datetime.fromtimestamp(key["expiration"]).strftime("%m/%d/%Y, %H:%M:%S")
-                embed.add_field(name="Expiration", value=expiration, inline=False)
-            await interaction.response.send_message(embed=embed, ephemeral=True)
+                    expiration = datetime.datetime.fromtimestamp(key["expiration"]).strftime("%m/%d/%Y, %H:%M:%S")
+                    embed.add_field(name="Expiration", value=expiration, inline=False)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
+            else:
+                await interaction.response.send_message("Invalid license key", ephemeral=True)
 
 class InfoView(discord.ui.View):
     @discord.ui.button(label="🔑License Info", row=0)
