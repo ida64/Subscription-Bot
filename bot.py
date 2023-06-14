@@ -80,12 +80,12 @@ class InfoView(discord.ui.View):
         await interaction.response.send_modal(HardwareIDModal(title="Reset Hardware ID"))
 
 @bot.command()
-async def help(ctx):
+async def helper(ctx):
     await ctx.reply("Hey, I'm here to help, what seems to be the problem?", view=InfoView())
 
 @bot.event
 async def on_ready():
     print("Bot is ready!")
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="$help for hwid/info"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="$helper for hwid/info"))
 
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
