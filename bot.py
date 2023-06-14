@@ -1,4 +1,5 @@
 import discord
+from discord.ext import commands
 import pymongo
 import datetime
 import os
@@ -25,7 +26,7 @@ async def reset_hardware_id(license):
         return False
 
 intents = discord.Intents.all()
-bot = discord.Bot(intents=intents)
+bot = commands.Bot(intents=intents, command_prefix='$')
 
 class HardwareIDModal(discord.ui.Modal):
     def __init__(self, *args, **kwargs) -> None:
@@ -78,17 +79,13 @@ class InfoView(discord.ui.View):
     async def hardware_id_callback(self, button, interaction):
         await interaction.response.send_modal(HardwareIDModal(title="Reset Hardware ID"))
 
-bot.slash_command_auto_sync = True
-
-@bot.slash_command(description="General utils for your subscription", guild_ids=[int(os.getenv("DISCORD_GUILD_ID"))])
-async def info(ctx):
-    await ctx.respond(view=InfoView(), ephemeral=True)
-
-bot.add_application_command(info)
+@bot.command()
+async def help(ctx):
+    await ctx.reply("Hey, I'm here to help, what seems to be the problem?", view=InfoView())
 
 @bot.event
 async def on_ready():
     print("Bot is ready!")
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="/info for info"))
-    
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="$help for hwid/info"))
+
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
