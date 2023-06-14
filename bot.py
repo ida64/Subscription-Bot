@@ -91,7 +91,4 @@ async def on_ready():
     print("Bot is ready!")
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="/info for info"))
     
-    # sync global
-    await bot.sync_commands()
-
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
