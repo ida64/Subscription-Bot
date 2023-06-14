@@ -6,6 +6,7 @@ def install(package):
     subprocess.check_call(['python3', "-m", "pip", "install", package])    
 
 install("discord")
+install("py-cord")
 install("pymongo")
 install("python-dotenv")
 
