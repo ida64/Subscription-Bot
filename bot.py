@@ -84,6 +84,8 @@ bot.slash_command_auto_sync = True
 async def info(ctx):
     await ctx.respond(view=InfoView(), ephemeral=True)
 
+bot.add_application_command(info)
+
 @bot.event
 async def on_ready():
     print("Bot is ready!")
