@@ -74,10 +74,22 @@ class InfoView(discord.ui.View):
     @discord.ui.button(label="🔑License Info", row=0)
     async def license_info_callback(self, button, interaction):
         await interaction.response.send_modal(LicenseInfoModal(title="View License Info"))
+        
+        message = await interaction.channel.fetch_message(interaction.message.id)
+        reply_message = await interaction.channel.fetch_message(message.reference.message_id)
+
+        await message.delete()
+        await reply_message.delete()
 
     @discord.ui.button(label="🖥️Hardware ID", row=0)
     async def hardware_id_callback(self, button, interaction):
         await interaction.response.send_modal(HardwareIDModal(title="Reset Hardware ID"))
+
+        message = await interaction.channel.fetch_message(interaction.message.id)
+        reply_message = await interaction.channel.fetch_message(message.reference.message_id)
+
+        await message.delete()
+        await reply_message.delete()
 
 @bot.command()
 async def helper(ctx):
