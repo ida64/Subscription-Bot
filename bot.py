@@ -59,12 +59,12 @@ class LicenseInfoModal(discord.ui.Modal):
         if key:
             if len(license_key) <= 25:
                 embed = discord.Embed(title=license_key, color=0x2F3136)
-                embed.add_field(name="Product", value=key["associated_product"], inline=False)
+                embed.add_field(name="Product", value=key["product_name"], inline=False)
                 if key["redeemed"]:
                     activated_at = datetime.datetime.fromtimestamp(key["activated_at"]).strftime("%m/%d/%Y, %H:%M:%S")
                     embed.add_field(name="Activated At", value=activated_at, inline=False)
 
-                    expiration = datetime.datetime.fromtimestamp(key["expiration"]).strftime("%m/%d/%Y, %H:%M:%S")
+                    expiration = datetime.datetime.fromtimestamp(key["expires_at"]).strftime("%m/%d/%Y, %H:%M:%S")
                     embed.add_field(name="Expiration", value=expiration, inline=False)
                 await interaction.response.send_message(embed=embed, ephemeral=True)
             else:
