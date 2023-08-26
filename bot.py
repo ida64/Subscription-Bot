@@ -97,7 +97,7 @@ async def helper(ctx):
 
 @bot.event
 async def on_ready():
-    print("Bot is ready!")
+    print(f"Logged in as {bot.user.name}")
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="$helper for hwid/info"))
 
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
