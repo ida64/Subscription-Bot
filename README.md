@@ -1,5 +1,5 @@
 ![full_logo_1688_280](https://i.ibb.co/JQ87yFr/full-logo-1688x280.png)
-Discord Bot written in Python for Sequel Server
+Discord Bot written in Python for Sequel
 
 ## Features
 
